@@ -19,7 +19,7 @@ public class Vector {
 
 	
 	public Vector(double tetta, double fi) {
-				
+/*
 		while (tetta > Math.PI) {
 			tetta -= Math.PI;
 		}while (tetta < 0) {
@@ -28,7 +28,7 @@ public class Vector {
 			fi -= 2 * Math.PI;
 		}while (fi < 0) {
 			fi += 2 * Math.PI;
-		}
+		}*/
 		this.x = Math.sin(tetta) * Math.cos(fi);
 		this.y = Math.sin(tetta) * Math.sin(fi);
 		this.z = Math.cos(tetta);

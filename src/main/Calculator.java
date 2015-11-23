@@ -2,20 +2,19 @@ package main;
 
 public class Calculator {
 
-	public double teta = 0;
-	public double fi = 0;
-	
 	private double t = 0;
 	private double dt = 0.001;
-	
-	private double at = 1 * Math.PI / 2;
-	private double af = 0;
-	
+
+	public static final double at = 0.25 * Math.PI;
+	public static final double af = 1 * Math.PI;
+
+	public static double teta = at;
+	public static double fi = af;
+
 	private final double alpha = 0.01;
-	
-	
-	private double h = 0.25;
-	private double w = 1;
+
+	public static double h = 0.1;
+	public static double w = 0.75;
 	
 	
 	public void iteration() {
@@ -30,20 +29,24 @@ public class Calculator {
 	}
 	
 	private double hx(double mt, double mf, double t) {
-		double ha_x = (sin(mt) * sin(at) * cos(mf - af) + cos(mt) * cos(at)) * sin(at) * cos(af);
+		double ha_x = m_p(mt, mf) * sin(at) * cos(af);
 		double ho_x = h * Math.cos(w * t);
 		return ha_x + ho_x;
 	}
 	
 	private double hy(double mt, double mf, double t) {
-		double ha_y = (sin(mt) * sin(at) * cos(mf - af) + cos(mt) * cos(at)) * sin(at) * sin(af);
+		double ha_y = m_p(mt, mf) * sin(at) * sin(af);
 		double ho_y = h * Math.sin(w * t);
 		return ha_y + ho_y;
 	}
 	
 	private double hz(double mt, double mf, double t) {
-		double ha_z = (sin(mt) * sin(at) * cos(mf - af) + cos(mt) * cos(at)) * cos(at);
+		double ha_z = m_p(mt, mf) * cos(at);
 		return ha_z;
+	}
+
+	private double m_p(double mt, double mf) {
+		return sin(mt) * sin(at) * cos(mf - af) + cos(mt) * cos(at);
 	}
 	
 	private double[] LLG(double mt, double mf, double t) {
@@ -52,16 +55,14 @@ public class Calculator {
 		double hy = hy(mt, mf, t);
 		double hz = hz(mt, mf, t);
 		
-		double mp = sin(mt) * sin(at) * cos(mf - af) + cos(mt) * cos(at);
+		double mp = m_p(mt, mf);
 
 		double thetta =
 			(hy * cos(mf) - hx * sin(mf)) + mp * sin(at) * sin(af - mf) +
 			alpha * cos(mt) * ((hx * cos(mf) + hy * sin(mf)) + mp * sin(at) * cos(af - mf)) -
 			alpha * sin(mt) * (hz + mp * cos(at));
 		
-		double phi = 0;
-		if (mt > 0.001 && mt < Math.PI - 0.001)
-			phi = 
+		double phi =
 				- cos(mt) / sin(mt) *
 					(hx * cos(mf) + hy * sin(mf) - 
 					mp * sin(at) * cos(af - mf)) + hz + mp * cos(at) +

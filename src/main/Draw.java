@@ -1,19 +1,14 @@
 package main; 
 
-import java.awt.BasicStroke;
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.Graphics2D;
+import javax.imageio.ImageIO;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.util.*;
-
-import javax.imageio.ImageIO;
-
-import main.Calculator;
-import main.Vector;
+import java.util.Date;
+import java.util.LinkedList;
+import java.util.ListIterator;
 
 public class Draw {
 
@@ -46,6 +41,7 @@ public class Draw {
 	public BufferedImage drawTraectory(boolean isSave) {
 
 			wrightCircle(Color.red);
+			wrightAxeOfAnisotrophia(Color.green);
 			wrightSecondCircle(Color.red);
 
 			wright(rotate(list), Color.BLUE);			
@@ -313,6 +309,16 @@ public class Draw {
 		g.setColor(color);
 		g.fillRect(0, 0, bi.getWidth(), bi.getHeight());
 		return g;
+	}
+
+	private void wrightAxeOfAnisotrophia(Color color) {
+		Vector axe = new Vector(Calculator.at, Calculator.af);
+
+		g.setStroke(new BasicStroke(3.0f));
+		drawLine(axe.rotate(xAngle, yAngle, zAngle).multiply(-1.5), color);
+		drawLine(axe.rotate(xAngle, yAngle, zAngle).multiply(1.5), color);
+		g.setStroke(new BasicStroke(1.0f));
+
 	}
 
 }

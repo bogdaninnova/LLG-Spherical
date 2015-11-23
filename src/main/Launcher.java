@@ -8,14 +8,14 @@ public class Launcher {
 
 	public static void main(String...strings) {
 		Calculator c = new Calculator();
-		int k = 32000;
+		int k = 500000;
 		ArrayList<Double> listX = new ArrayList<Double>(k);
 		ArrayList<Double> listY = new ArrayList<Double>(k);
 		ArrayList<Double> listZ = new ArrayList<Double>(k);
 		
-		for (int i = 0; i < 100000; i++)
+		for (int i = 0; i < 0 * 300000; i++)
 			c.iteration();
-		
+
 		LinkedList<Vector> list = new LinkedList<Vector>();
 		while (k --> 0) {
 			c.iteration();
@@ -29,7 +29,7 @@ public class Launcher {
 		writeDoubleList(listY, "listY");
 		writeDoubleList(listZ, "listZ");
 		
-		new Draw(list, 0.4 * Math.PI, 0.4 * Math.PI, 0, "track").drawTraectory(true);
+		new Draw(list, 0.4 * Math.PI, 0.4 * Math.PI, 0, "w=" + Calculator.w + ";h=" + Calculator.h + ";teta=" + Calculator.at).drawTraectory(true);
 	}
 	
 	public static void writeDoubleList(List<Double> averrageList, String name) {
