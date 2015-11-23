@@ -5,18 +5,21 @@ public class Calculator {
 	private double t = 0;
 	private double dt = 0.001;
 
-	public static final double at = 0.25 * Math.PI;
-	public static final double af = 1 * Math.PI;
+	// Anisotropy axe's angles
+	public static final double at = 0.75 * Math.PI;
+	public static final double af = 0 * Math.PI;
 
+	// m_theta, m_fi
 	public static double teta = at;
 	public static double fi = af;
 
 	private final double alpha = 0.01;
 
+	//Circular field's characteristics
 	public static double h = 0.1;
 	public static double w = 0.75;
-	
-	
+
+	//Runge-Kutta method
 	public void iteration() {
 		double[] k1 = LLG(teta, fi, t);
 		double[] k2 = LLG(teta + k1[0] * dt/2, fi + k1[1] * dt/2, t + dt/2);
@@ -54,14 +57,17 @@ public class Calculator {
 		double hx = hx(mt, mf, t);
 		double hy = hy(mt, mf, t);
 		double hz = hz(mt, mf, t);
-		
+
+		//m_parallel
 		double mp = m_p(mt, mf);
 
+		//m_theta
 		double thetta =
 			(hy * cos(mf) - hx * sin(mf)) + mp * sin(at) * sin(af - mf) +
 			alpha * cos(mt) * ((hx * cos(mf) + hy * sin(mf)) + mp * sin(at) * cos(af - mf)) -
 			alpha * sin(mt) * (hz + mp * cos(at));
-		
+
+		//m_fi
 		double phi =
 				- cos(mt) / sin(mt) *
 					(hx * cos(mf) + hy * sin(mf) - 

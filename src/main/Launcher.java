@@ -13,7 +13,7 @@ public class Launcher {
 		ArrayList<Double> listY = new ArrayList<Double>(k);
 		ArrayList<Double> listZ = new ArrayList<Double>(k);
 		
-		for (int i = 0; i < 0 * 300000; i++)
+		for (int i = 0; i < 10000000; i++)
 			c.iteration();
 
 		LinkedList<Vector> list = new LinkedList<Vector>();
