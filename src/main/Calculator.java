@@ -70,7 +70,7 @@ public class Calculator {
 		//m_fi
 		double phi =
 				- cos(mt) / sin(mt) *
-					(hx * cos(mf) + hy * sin(mf) - 
+					(hx * cos(mf) + hy * sin(mf) +
 					mp * sin(at) * cos(af - mf)) + hz + mp * cos(at) +
 				alpha / sin(mt) * (hy * cos(mf) - hx * sin(mf)) +
 				alpha / sin(mt) * mp * sin(at) * sin(af - mf);
