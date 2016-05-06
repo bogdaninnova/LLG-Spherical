@@ -24,10 +24,10 @@ public class Calculator {
 		double[] k1 = LLG(teta, fi, t);
 		double[] k2 = LLG(teta + k1[0] * dt/2, fi + k1[1] * dt/2, t + dt/2);
 		double[] k3 = LLG(teta + k2[0] * dt/2, fi + k2[1] * dt/2, t + dt/2);
-		double[] k4 = LLG(teta + k3[0] * dt/1, fi + k3[1] * dt/1, t + dt/1);
+		double[] k4 = LLG(teta + k3[0] * dt, fi + k3[1] * dt, t + dt);	
 		
 		teta += dt/6 * (k1[0] + 2 * k2[0] + 2 * k3[0] + k4[0]);
-		fi   += dt/6 * (k1[1] + 2 * k2[1] + 2 * k3[1] + k4[1]);
+		fi += dt/6 * (k1[1] + 2 * k2[1] + 2 * k3[1] + k4[1]);
 		t += dt;
 	}
 	
