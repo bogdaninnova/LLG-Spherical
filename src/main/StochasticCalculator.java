@@ -1,23 +1,20 @@
 package main;
 
+import java.util.LinkedList;
 import java.util.Random;
 
 public class StochasticCalculator {
 
-    private static final double dt = Math.pow(10, -8);
+    private static final double dt = Math.pow(10, -4);
     private static final double da = Math.pow(10, -8);//step by angle
 
-    private static final double w = 1;
-    private static final double h = 1;
-
-    private double theta = 0;
-    private double phi = 0;
-    private double t = 0;
+    public static final double w = 1;
+    public static final double h = 0.1;
 
     private static Random rand = new Random();
 
-    private static final double ALPHA = 0.01;
-    private static final double L = 1 / (1 + ALPHA * ALPHA);
+    private static final double ALPHA = 0;
+    private static final double L = 1 + ALPHA * ALPHA;
     private static final double Ha = 1;
     private static final double M = 1;
     private static final double V = 1;
@@ -27,24 +24,52 @@ public class StochasticCalculator {
 
     private static final double SQRT_2_ALPHA_E = Math.sqrt(2 * ALPHA / E);
 
-    private static final double THETA_AN = Math.PI / 4;
-    private static final double PHI_AN = 0;
+    public static final double THETA_AN = Math.PI / 4;
+    public static final double PHI_AN = 0;
     private static final double SIN_PHI_AN = sin(PHI_AN);
     private static final double COS_PHI_AN = cos(PHI_AN);
     private static final double SIN_THETA_AN = sin(THETA_AN);
     private static final double COS_THETA_AN = cos(THETA_AN);
 
+    private double theta = Math.PI / 5;
+    private double phi = PHI_AN;
+    private double t = 0;
 
-    public void iteration() {
+    public LinkedList<Vector> getResult(int iters) {
+        LinkedList<Vector> list = new LinkedList<>();
+        for(int i = 0; i < iters; i++) {
+            iteration();
+            list.add(new Vector(theta, phi));
+        }
+        return list;
+    }
 
-        double dW = rand.nextDouble();//0..1
+
+    private void iteration() {
+
+        double N1 = rand.nextDouble();//0..1
+        double N2 = rand.nextDouble();//0..1
+
+        N1 = 0;
+        N2 = 0;
 
         double dEnergy_dtheta = get_dW_dtheta(theta, phi, t);
         double dEnergy_dphi = get_dW_dphi(theta, phi, t);
         double sinTheta_1 = 1 / sin(theta);
 
-        double dTheta = L * dt * (-ALPHA * dEnergy_dtheta - sinTheta_1 * dEnergy_dphi + ALPHA / E * Math.atan(theta) + SQRT_2_ALPHA_E * dW);
-        double dPhi = 0;
+        double dTheta = (
+                        - ALPHA / L * dEnergy_dtheta
+                        - sinTheta_1 / L * dEnergy_dphi
+                       // + ALPHA / E / L * Math.atan(theta)
+        ) * dt
+                            + SQRT_2_ALPHA_E / L * N1 * Math.sqrt(dt);
+
+        double dPhi = (
+                sinTheta_1 / L * dEnergy_dtheta
+                - ALPHA / L * sinTheta_1 * sinTheta_1 * dEnergy_dphi) * dt
+                    + SQRT_2_ALPHA_E / L * sinTheta_1 * N2 * Math.sqrt(dt);
+
+
 
         theta += dTheta;
         phi += dPhi;
@@ -52,11 +77,11 @@ public class StochasticCalculator {
     }
 
 
-    private static double get_dW_dtheta(double theta, double phi, double t) {
+    public static double get_dW_dtheta(double theta, double phi, double t) {
         return (getW(theta + da, phi, t) - getW(theta, phi, t)) / da;
     }
 
-    private static double get_dW_dphi(double theta, double phi, double t) {
+    public static double get_dW_dphi(double theta, double phi, double t) {
         return (getW(theta, phi + da, t) - getW(theta, phi, t)) / da;
     }
 

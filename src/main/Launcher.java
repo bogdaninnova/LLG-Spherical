@@ -7,29 +7,27 @@ import java.util.*;
 public class Launcher {
 
 	public static void main(String...strings) {
-		Calculator c = new Calculator();
-		int k = 500000;
-		ArrayList<Double> listX = new ArrayList<Double>(k);
-		ArrayList<Double> listY = new ArrayList<Double>(k);
-		ArrayList<Double> listZ = new ArrayList<Double>(k);
-		
-		for (int i = 0; i < 10000000; i++)
-			c.iteration();
+		StochasticCalculator c = new StochasticCalculator();
 
-		LinkedList<Vector> list = new LinkedList<Vector>();
-		while (k --> 0) {
-			c.iteration();
-			listX.add(Math.sin(c.teta) * Math.cos(c.fi));
-			listY.add(Math.sin(c.teta) * Math.sin(c.fi));
-			listZ.add(Math.cos(c.teta));
-			list.add(new Vector(c.teta, c.fi));
-		}
+		System.out.println(StochasticCalculator.get_dW_dtheta(Math.PI /3, 0, 0));
+
+
+
+		System.exit(0);
+
+		int k = 100000;
+		ArrayList<Double> listX = new ArrayList<>(k);
+		ArrayList<Double> listY = new ArrayList<>(k);
+		ArrayList<Double> listZ = new ArrayList<>(k);
+
+
+		LinkedList<Vector> list = c.getResult(k * 10);
 		
 		writeDoubleList(listX, "listX");
 		writeDoubleList(listY, "listY");
 		writeDoubleList(listZ, "listZ");
 		
-		new Draw(list, 0.4 * Math.PI, 0.4 * Math.PI, 0, "w=" + Calculator.w + ";h=" + Calculator.h + ";teta=" + Calculator.at).drawTraectory(true);
+		new Draw(list, 0.4 * Math.PI, 0.4 * Math.PI, 0, "w=" + c.w + ";h=" + c.h + ";teta=" + c.THETA_AN).drawTraectory(true);
 	}
 	
 	public static void writeDoubleList(List<Double> averrageList, String name) {

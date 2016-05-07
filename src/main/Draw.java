@@ -312,7 +312,7 @@ public class Draw {
 	}
 
 	private void wrightAxeOfAnisotrophia(Color color) {
-		Vector axe = new Vector(Calculator.at, Calculator.af);
+		Vector axe = new Vector(StochasticCalculator.THETA_AN, StochasticCalculator.PHI_AN);
 
 		g.setStroke(new BasicStroke(3.0f));
 		drawLine(axe.rotate(xAngle, yAngle, zAngle).multiply(-1.5), color);
